@@ -1,19 +1,16 @@
 "use client";
 
 import * as Select from "@radix-ui/react-select";
-import { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { ReactNode } from "react";
 import { Dot } from "lucide-react";
-import { debug } from "console";
 
-const SelectItem = ({
-  children,
-  value,
-  tagColor,
-}: {
+interface SelectItemProps {
   children: ReactNode;
   value: string;
   tagColor: string | "#FFF";
-}) => {
+}
+
+const SelectItem = ({ children, value, tagColor }: SelectItemProps) => {
   return (
     <Select.Item
       value={value}
@@ -28,7 +25,16 @@ const SelectItem = ({
   );
 };
 
-export const Selector = () => {
+export type SelectorItem = {
+  value: string;
+  text: string;
+  tagColor: string;
+}[];
+interface SelectorProps {
+  itens: SelectorItem;
+}
+
+export const Selector = ({ itens }: SelectorProps) => {
   return (
     <Select.Root>
       <Select.Trigger className="border-martinquie flex gap-1 rounded-full border-2 border-none p-1">
@@ -39,10 +45,18 @@ export const Selector = () => {
       <Select.Portal className="my-10 max-h-32 w-32 rounded-md border-2 border-martinquier bg-white p-2 shadow-md">
         <Select.Content>
           <Select.ScrollUpButton />
-          <Select.Viewport>
-            <SelectItem value="A" tagColor="#73ff00">
-              Arquivo A
-            </SelectItem>
+          <Select.Viewport className="flex flex-col gap-1">
+            {itens.map((item, i) => {
+              return (
+                <SelectItem
+                  key={item.value}
+                  value={item.value}
+                  tagColor={item.tagColor}
+                >
+                  {item.text}
+                </SelectItem>
+              );
+            })}
 
             <Select.Separator />
           </Select.Viewport>
