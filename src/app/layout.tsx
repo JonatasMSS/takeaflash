@@ -30,6 +30,7 @@ export default function RootLayout({
         className={`${k2d.variable} ${lalezar.variable} grid min-h-screen  w-screen grid-flow-col grid-cols-2 font-sans`}
       >
         <UserInfoSide />
+        {children}
       </body>
     </html>
   );
