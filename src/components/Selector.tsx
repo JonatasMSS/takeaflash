@@ -15,7 +15,7 @@ const SelectItem = ({ children, value, tagColor }: SelectItemProps) => {
     <Select.Item
       value={value}
       style={{ backgroundColor: `${tagColor}` }}
-      className={`relative bg-${tagColor} rounded-md p-1  outline-none transition-all hover:scale-90 hover:border-2 hover:border-black `}
+      className={`relative bg-${tagColor} rounded-md p-1 outline-none  transition-all hover:scale-90 hover:cursor-pointer hover:border-2 hover:border-black `}
     >
       <Select.ItemText className="text-blue-500">{children}</Select.ItemText>
       <Select.ItemIndicator className="absolute">
