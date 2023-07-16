@@ -11,14 +11,24 @@ import {
 
 interface FrontalContentProps {
   tag: string;
-  text: string;
+  title: string;
   tagColor: string;
   onHandleSee(): void;
 }
 
+interface BackContentProps {
+  title: string;
+  content: string;
+  onHandleBack(): void;
+}
+
+interface FlashcardProps
+  extends Omit<FrontalContentProps, "onHandleSee">,
+    Omit<BackContentProps, "onHandleBack" | "title"> {}
+
 const FrontalContent = ({
   tag,
-  text,
+  title,
   tagColor,
   onHandleSee,
 }: FrontalContentProps) => {
@@ -31,7 +41,7 @@ const FrontalContent = ({
         >
           {tag}
         </span>
-        <p className="font-bold">{text}</p>
+        <p className="font-bold">{title}</p>
       </div>
     );
   }
@@ -55,18 +65,12 @@ const FrontalContent = ({
   );
 };
 
-interface BackContent {
-  title: string;
-  text: string;
-  onHandleBack(): void;
-}
-
-const BackContent = ({ text, title, onHandleBack }: BackContent) => {
+const BackContent = ({ content, title, onHandleBack }: BackContentProps) => {
   function HeaderContent() {
     return (
       <div className="flex flex-col">
         <span className="font-bold">{title}</span>
-        <p className="w-96 break-words ">{text}</p>
+        <p className="w-96 break-words ">{content}</p>
       </div>
     );
   }
@@ -102,7 +106,7 @@ const BackContent = ({ text, title, onHandleBack }: BackContent) => {
   );
 };
 
-export function Flashcard() {
+export function Flashcard({ title, content, tagColor, tag }: FlashcardProps) {
   const [isFrontal, setIsFrontal] = useState(true);
 
   const handleSeeAwnser = () => {
@@ -114,15 +118,15 @@ export function Flashcard() {
       <AnimatePresence mode="wait">
         {isFrontal ? (
           <FrontalContent
-            tag="Fronta"
-            tagColor="#f10000"
-            text="Teste"
+            tag={tag}
+            tagColor={tagColor}
+            title={title}
             onHandleSee={handleSeeAwnser}
           />
         ) : (
           <BackContent
-            text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            title="AKSDJLKAS"
+            content={content}
+            title={title}
             onHandleBack={handleSeeAwnser}
           />
         )}
