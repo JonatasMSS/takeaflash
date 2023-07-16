@@ -12,12 +12,22 @@ const Filter = () => {
 
 export default async function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center gap-5 p-5">
+    <main className="flex max-h-screen flex-col items-center gap-5 overflow-y-auto p-5">
       <Filter />
 
       {/* Component */}
 
-      <Flashcard />
+      {Array.from({ length: 10 }).map((e, i) => {
+        return (
+          <Flashcard
+            key={i}
+            content="SAJDKASDK"
+            tag="DS"
+            tagColor="#fff"
+            title="AAA"
+          />
+        );
+      })}
     </main>
   );
 }

@@ -1,13 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  useAnimate,
-  usePresence,
-  AnimatePresence,
-  motion,
-} from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface FrontalContentProps {
   tag: string;
@@ -106,7 +101,7 @@ const BackContent = ({ content, title, onHandleBack }: BackContentProps) => {
   );
 };
 
-export function Flashcard({ title, content, tagColor, tag }: FlashcardProps) {
+export function Flashcard({ title, tagColor, content, tag }: FlashcardProps) {
   const [isFrontal, setIsFrontal] = useState(true);
 
   const handleSeeAwnser = () => {
