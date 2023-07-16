@@ -22,13 +22,8 @@ const FrontalContent = ({
   tagColor,
   onHandleSee,
 }: FrontalContentProps) => {
-  return (
-    <motion.div
-      initial={{ rotateX: 90 }}
-      animate={{ rotateX: 0 }}
-      exit={{ rotateX: -90 }}
-      className="flex w-full items-center"
-    >
+  function HeaderContent() {
+    return (
       <div className="flex w-full flex-col">
         <span
           style={{ backgroundColor: tagColor }}
@@ -38,6 +33,17 @@ const FrontalContent = ({
         </span>
         <p className="font-bold">{text}</p>
       </div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ rotateX: 90 }}
+      animate={{ rotateX: 0 }}
+      exit={{ rotateX: -90 }}
+      className="flex w-full items-center"
+    >
+      <HeaderContent />
 
       <button
         onClick={onHandleSee}
@@ -49,27 +55,23 @@ const FrontalContent = ({
   );
 };
 
-const BackContent = ({
-  text,
-  title,
-  onHandleBack,
-}: {
-  text: string;
+interface BackContent {
   title: string;
+  text: string;
   onHandleBack(): void;
-}) => {
-  return (
-    <motion.div
-      initial={{ rotateX: -90 }}
-      animate={{ rotateX: 0 }}
-      exit={{ rotateX: 90 }}
-      className="flex w-full items-center justify-between"
-    >
+}
+
+const BackContent = ({ text, title, onHandleBack }: BackContent) => {
+  function HeaderContent() {
+    return (
       <div className="flex flex-col">
         <span className="font-bold">{title}</span>
         <p className="w-96 break-words ">{text}</p>
       </div>
-
+    );
+  }
+  function ActionButtons() {
+    return (
       <div className="flex gap-2 ">
         <button
           onClick={onHandleBack}
@@ -84,6 +86,18 @@ const BackContent = ({
           Errei!
         </button>
       </div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ rotateX: -90 }}
+      animate={{ rotateX: 0 }}
+      exit={{ rotateX: 90 }}
+      className="flex w-full items-center justify-between"
+    >
+      <HeaderContent />
+      <ActionButtons />
     </motion.div>
   );
 };
