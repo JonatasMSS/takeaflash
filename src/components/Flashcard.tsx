@@ -16,8 +16,8 @@ interface FrontalContentProps {
   onHandleSee(): void;
 }
 
-interface BackContentProps {
-  title: string;
+interface BackContentProps
+  extends Omit<FrontalContentProps, "tag" | "tagColor" | "onHandleSee"> {
   content: string;
   onHandleBack(): void;
 }
