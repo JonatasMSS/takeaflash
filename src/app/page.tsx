@@ -16,18 +16,6 @@ export default async function Home() {
       <Filter />
 
       {/* Component */}
-
-      {Array.from({ length: 10 }).map((e, i) => {
-        return (
-          <Flashcard
-            key={i}
-            content="SAJDKASDK"
-            tag="DS"
-            tagColor="#fff"
-            title="AAA"
-          />
-        );
-      })}
     </main>
   );
 }
