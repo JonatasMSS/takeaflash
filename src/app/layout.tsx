@@ -1,7 +1,11 @@
+"use client";
+
 import { UserInfoSide } from "@/components/UserInfoSide";
 import "@/globals.css";
 import type { Metadata } from "next";
 import { K2D, Lalezar } from "next/font/google";
+
+import { SessionProvider } from "next-auth/react";
 
 const k2d = K2D({
   subsets: ["latin-ext"],
@@ -29,8 +33,10 @@ export default function RootLayout({
       <body
         className={`${k2d.variable} ${lalezar.variable} grid min-h-screen  w-screen grid-flow-col grid-cols-2 font-sans`}
       >
-        <UserInfoSide />
-        {children}
+        <SessionProvider>
+          <UserInfoSide />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
