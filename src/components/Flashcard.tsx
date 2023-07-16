@@ -1,54 +1,118 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { MouseEventHandler, useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  useAnimate,
+  usePresence,
+  AnimatePresence,
+  motion,
+} from "framer-motion";
 
-const FrontalExibition = () => {
+interface FrontalContentProps {
+  tag: string;
+  text: string;
+  tagColor: string;
+  onHandleSee(): void;
+}
+
+const FrontalContent = ({
+  tag,
+  text,
+  tagColor,
+  onHandleSee,
+}: FrontalContentProps) => {
   return (
-    <div className="flex w-full cursor-pointer flex-col rounded-md border-2 border-black p-2 shadow-md transition-all hover:scale-105">
-      <span className="w-fit rounded-md bg-red-400 px-1 font-bold text-martinquier">
-        {" "}
-        TAG{" "}
-      </span>
+    <motion.div
+      initial={{ rotateX: 90 }}
+      animate={{ rotateX: 0 }}
+      exit={{ rotateX: -90 }}
+      className="flex w-full items-center"
+    >
+      <div className="flex w-full flex-col">
+        <span
+          style={{ backgroundColor: tagColor }}
+          className="w-fit rounded-md  px-2 font-bold"
+        >
+          {tag}
+        </span>
+        <p className="font-bold">{text}</p>
+      </div>
 
-      <p className="font-bold text-martinquier">Qual a fórmula de bhaskara?</p>
-    </div>
+      <button
+        onClick={onHandleSee}
+        className="h-fit rounded-md bg-yellow-400 px-2 font-bold transition-all hover:scale-105 hover:bg-yellow-300"
+      >
+        Ver
+      </button>
+    </motion.div>
   );
 };
 
-const BackExibition = () => {
+const BackContent = ({
+  text,
+  title,
+  onHandleBack,
+}: {
+  text: string;
+  title: string;
+  onHandleBack(): void;
+}) => {
   return (
-    <div className="flex w-full cursor-pointer items-center rounded-md border-2 border-black p-2 shadow-md transition-all">
-      <p className="w-full  font-bold text-martinquier">
-        Qual a fórmula de bhaskara?
-      </p>
-      <div className="flex items-center gap-5">
-        <button className="h-fit rounded-md bg-green-500 p-1 text-base font-bold transition-all hover:bg-green-400">
+    <motion.div
+      initial={{ rotateX: -90 }}
+      animate={{ rotateX: 0 }}
+      exit={{ rotateX: 90 }}
+      className="flex w-full items-center justify-between"
+    >
+      <div className="flex flex-col">
+        <span className="font-bold">{title}</span>
+        <p className="w-96 break-words ">{text}</p>
+      </div>
+
+      <div className="flex gap-2 ">
+        <button
+          onClick={onHandleBack}
+          className="rounded-md bg-green-500 p-1 font-bold transition-all hover:scale-105 hover:bg-green-400"
+        >
           Acertei!
         </button>
-        <button className="h-fit rounded-md bg-red-500 p-1 text-base font-bold transition-all hover:bg-red-400">
+        <button
+          onClick={onHandleBack}
+          className="rounded-md bg-red-500 p-1 font-bold transition-all hover:scale-105 hover:bg-red-400"
+        >
           Errei!
         </button>
       </div>
-    </div>
-  );
-};
-
-const Transitioner = () => {
-  const [exibitionIndex, setExibiton] = useState(0);
-  const Exibitions = [<FrontalExibition key={0} />, <BackExibition key={1} />];
-
-  const handlePressedFlashcard = () => {
-    setExibiton((prev) => (prev === 0 ? 1 : 0));
-    console.log("Mudança de estado" + exibitionIndex);
-  };
-
-  return (
-    <div className="w-full" onClick={handlePressedFlashcard}>
-      {Exibitions[exibitionIndex]}
-    </div>
+    </motion.div>
   );
 };
 
 export function Flashcard() {
-  return <Transitioner />;
+  const [isFrontal, setIsFrontal] = useState(true);
+
+  const handleSeeAwnser = () => {
+    setIsFrontal(!isFrontal);
+  };
+
+  return (
+    <motion.div layout className="w-full rounded-md border-2 border-black p-2">
+      <AnimatePresence mode="wait">
+        {isFrontal ? (
+          <FrontalContent
+            tag="Fronta"
+            tagColor="#f10000"
+            text="Teste"
+            onHandleSee={handleSeeAwnser}
+          />
+        ) : (
+          <BackContent
+            text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            title="AKSDJLKAS"
+            onHandleBack={handleSeeAwnser}
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
 }
