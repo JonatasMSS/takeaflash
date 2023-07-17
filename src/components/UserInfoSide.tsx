@@ -1,9 +1,6 @@
-"use client";
-import { SignIn } from "./Header";
-import { useSession } from "next-auth/react";
 import { BigIntroFlashcard } from "./BigIntroFlashcard";
-import { UserInfo } from "./UserInfo";
-import { Loader } from "./Loader";
+
+import { Header } from "./UserInfoSide/Header";
 
 export function UserInfoSide() {
   function MetricSection() {
@@ -16,29 +13,10 @@ export function UserInfoSide() {
     );
   }
 
-  const { data: session, status } = useSession();
-
-  const Loading = () => {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center border-r-2 border-zinc-800 bg-sahara">
-        <Loader />
-      </div>
-    );
-  };
-
-  if (status === "loading") {
-    return <Loading />;
-  }
-
   return (
-    <div className="flex h-full w-full flex-col items-center border-r-2 border-zinc-800 bg-sahara ">
+    <div className="relative flex h-full w-full flex-col items-center border-r-2 border-zinc-800 bg-sahara ">
       {/* Header */}
-      {session ? (
-        <UserInfo img={session.user!.image} username={session.user!.name} />
-      ) : (
-        <SignIn />
-      )}
-
+      <Header />
       <BigIntroFlashcard />
 
       {/* Data Section */}
