@@ -3,6 +3,7 @@ import { SignIn } from "./Header";
 import { useSession } from "next-auth/react";
 import { BigIntroFlashcard } from "./BigIntroFlashcard";
 import { UserInfo } from "./UserInfo";
+import { Loader } from "./Loader";
 
 export function UserInfoSide() {
   function MetricSection() {
@@ -15,7 +16,19 @@ export function UserInfoSide() {
     );
   }
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  const Loading = () => {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center border-r-2 border-zinc-800 bg-sahara">
+        <Loader />
+      </div>
+    );
+  };
+
+  if (status === "loading") {
+    return <Loading />;
+  }
 
   return (
     <div className="flex h-full w-full flex-col items-center border-r-2 border-zinc-800 bg-sahara ">

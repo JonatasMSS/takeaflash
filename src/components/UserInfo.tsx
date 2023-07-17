@@ -5,12 +5,21 @@ interface UserInfoProps {
   username: string | null | undefined;
 }
 
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { Loader } from "./Loader";
 
 export function UserInfo({ img, username }: UserInfoProps) {
   const handleSignOut = () => {
     signOut();
   };
+
+  const { status } = useSession();
+
+  if (status === "loading") {
+    <div className="flex w-full items-center justify-center">
+      Carregando...
+    </div>;
+  }
 
   return (
     <div className="flex w-full items-center justify-between gap-2 border-b-2 border-zinc-700 p-2 ">

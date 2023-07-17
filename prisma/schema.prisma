@@ -15,3 +15,7 @@ model Tag {
   name  String @unique
   color String
 }
+
+model Users {
+  id String @id @default(uuid())
+}
