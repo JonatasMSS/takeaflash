@@ -9,10 +9,8 @@ export const FrontalView = () => {
     );
   }
 
-  return (
-    <div className=" my-20 flex w-[90%] justify-between rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md">
-      <Title />
-
+  function ActionButtons() {
+    return (
       <div className="flex flex-col justify-evenly">
         <button className="rounded-full bg-green-500 p-1">
           <Plus size={50} strokeWidth={1.5} />
@@ -21,13 +19,20 @@ export const FrontalView = () => {
           <HelpCircle size={50} strokeWidth={1.5} />
         </button>
       </div>
+    );
+  }
+
+  return (
+    <div className=" my-20 flex w-[90%] justify-between rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md">
+      <Title />
+      <ActionButtons />
     </div>
   );
 };
 
 export const BackView = () => {
-  return (
-    <div className=" my-20 flex w-[90%] flex-col justify-between gap-3 rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md">
+  function Header() {
+    return (
       <div className="flex w-full items-center gap-2 ">
         <button className="rounded-full border-2 border-black bg-yellow-300 p-2  transition-colors hover:bg-yellow-200">
           <ArrowBigLeft size={32} />
@@ -36,6 +41,11 @@ export const BackView = () => {
           O que é o <span className="font-bold">Take A Flash?</span>
         </h2>
       </div>
+    );
+  }
+
+  function Body() {
+    return (
       <div className="w-full rounded-md border-2 border-black bg-white p-2">
         <p>
           É um criador de flashcards para{" "}
@@ -46,6 +56,13 @@ export const BackView = () => {
           <span className="font-bold text-green-500">botão verde</span>
         </p>
       </div>
+    );
+  }
+
+  return (
+    <div className=" my-20 flex w-[90%] flex-col justify-between gap-3 rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md">
+      <Header />
+      <Body />
     </div>
   );
 };
