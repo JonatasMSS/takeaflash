@@ -1,6 +1,14 @@
-import { Plus, HelpCircle, ArrowBigLeft } from "lucide-react";
+"use client";
 
-export const FrontalView = () => {
+import { Plus, HelpCircle, ArrowBigLeft } from "lucide-react";
+import { motion } from "framer-motion";
+import { Dispatch, SetStateAction } from "react";
+
+interface FrontalViewProps {
+  setHelperState: Dispatch<SetStateAction<boolean>>;
+}
+
+export const FrontalView = ({ setHelperState }: FrontalViewProps) => {
   function Title() {
     return (
       <h2 className="flex flex-col font-alt text-8xl">
@@ -16,11 +24,15 @@ export const FrontalView = () => {
           <Plus size={50} strokeWidth={1.5} />
         </button>
         <button className=" rounded-full bg-gorse p-1">
-          <HelpCircle size={50} strokeWidth={1.5} />
+          <HelpCircle size={50} strokeWidth={1.5} onClick={handleOnShowTips} />
         </button>
       </div>
     );
   }
+
+  const handleOnShowTips = () => {
+    setHelperState((prev) => !prev);
+  };
 
   return (
     <div className=" my-20 flex w-[90%] justify-between rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md">
@@ -30,11 +42,19 @@ export const FrontalView = () => {
   );
 };
 
-export const BackView = () => {
+interface BackViewProps extends FrontalViewProps {}
+export const BackView = ({ setHelperState }: BackViewProps) => {
+  const handleBack = () => {
+    setHelperState((prev) => !prev);
+  };
+
   function Header() {
     return (
       <div className="flex w-full items-center gap-2 ">
-        <button className="rounded-full border-2 border-black bg-yellow-300 p-2  transition-colors hover:bg-yellow-200">
+        <button
+          onClick={handleBack}
+          className="rounded-full border-2 border-black bg-yellow-300 p-2  transition-colors hover:bg-yellow-200"
+        >
           <ArrowBigLeft size={32} />
         </button>
         <h2 className="text-xl">
