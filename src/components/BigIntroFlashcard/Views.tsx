@@ -39,6 +39,7 @@ export const FrontalView = ({ setHelperState }: FrontalViewProps) => {
       initial={{ rotateX: -90 }}
       animate={{ rotateX: 0 }}
       exit={{ rotateX: 90 }}
+      transition={{ ease: "easeInOut" }}
       className=" my-20 flex w-[90%] justify-between rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md"
     >
       <Title />
@@ -90,6 +91,7 @@ export const BackView = ({ setHelperState }: BackViewProps) => {
       initial={{ rotateX: 90 }}
       animate={{ rotateX: 0 }}
       exit={{ rotateX: -90 }}
+      transition={{ ease: "easeInOut" }}
       className=" my-20 flex w-[90%] flex-col justify-between gap-3 rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md"
     >
       <Header />
