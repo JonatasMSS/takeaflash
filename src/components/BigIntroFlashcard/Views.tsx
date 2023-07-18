@@ -35,14 +35,20 @@ export const FrontalView = ({ setHelperState }: FrontalViewProps) => {
   };
 
   return (
-    <div className=" my-20 flex w-[90%] justify-between rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md">
+    <motion.div
+      initial={{ rotateX: -90 }}
+      animate={{ rotateX: 0 }}
+      exit={{ rotateX: 90 }}
+      className=" my-20 flex w-[90%] justify-between rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md"
+    >
       <Title />
       <ActionButtons />
-    </div>
+    </motion.div>
   );
 };
 
 interface BackViewProps extends FrontalViewProps {}
+
 export const BackView = ({ setHelperState }: BackViewProps) => {
   const handleBack = () => {
     setHelperState((prev) => !prev);
@@ -80,9 +86,14 @@ export const BackView = ({ setHelperState }: BackViewProps) => {
   }
 
   return (
-    <div className=" my-20 flex w-[90%] flex-col justify-between gap-3 rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md">
+    <motion.div
+      initial={{ rotateX: 90 }}
+      animate={{ rotateX: 0 }}
+      exit={{ rotateX: -90 }}
+      className=" my-20 flex w-[90%] flex-col justify-between gap-3 rounded-lg border-[1px] border-black bg-softGorse p-5  shadow-md"
+    >
       <Header />
       <Body />
-    </div>
+    </motion.div>
   );
 };
