@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${k2d.variable} ${lalezar.variable} grid min-h-screen  w-screen grid-flow-col grid-cols-2 font-sans`}
+        className={`${k2d.variable} ${lalezar.variable} grid min-h-screen grid-flow-col grid-cols-2 font-sans`}
       >
         <AuthProvider>
           <UserInfoSide />
