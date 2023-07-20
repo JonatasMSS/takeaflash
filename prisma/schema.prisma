@@ -41,9 +41,16 @@ model Flashcard {
 }
 
 model ViewedFlashcard {
-  id          String     @id @default(uuid())
-  Flashcard   Flashcard? @relation(fields: [flashcardId], references: [id])
-  flashcardId String?
-  viewedDay   DateTime   @default(now())
-  isCorrect   Boolean
+  id           String     @id @default(uuid())
+  Flashcard    Flashcard? @relation(fields: [flashcardId], references: [id])
+  flashcardId  String?
+  viewedDay    ViewedDate @relation(fields: [viewedDateId], references: [id])
+  isCorrect    Boolean
+  viewedDateId String
+}
+
+model ViewedDate {
+  id              String            @id @default(uuid())
+  date            DateTime          @default(now())
+  ViewedFlashcard ViewedFlashcard[]
 }
