@@ -13,22 +13,11 @@ export interface Flashcard {
   userId: string | null;
   tag: Tag;
 }
-export interface ViewedFlashcard {
-  id: string;
-  flashcardId: string;
-  isCorrect: boolean;
-  viewedDateId?: string;
-}
-export interface ViewedDate {
-  id: string;
-  date: Date;
-  viewedFlashcards: ViewedFlashcard[];
-  userId: string;
-}
+
 export interface Tag {
   id: number;
   name: string;
   color: string;
-  flashcardId: string | null;
-  userId: string | null;
+  flashcardId?: string | null;
+  userId?: string | null;
 }
