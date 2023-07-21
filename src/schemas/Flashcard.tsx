@@ -7,8 +7,8 @@ export interface Flashcard {
 }
 export interface ViewedFlashcard {
   id: string;
-  flashcardId: string;
-  viewedDay: Date;
+  flashcardId: string | null;
+  viewedDayId: string;
   isCorrect: boolean;
 }
 export interface Tag {
@@ -16,4 +16,9 @@ export interface Tag {
   name: string;
   color: string;
   userId: string;
+}
+export interface ViewedDay {
+  id: string;
+  date: Date;
+  viewedFlascards: ViewedFlashcard[];
 }

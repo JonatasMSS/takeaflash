@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { ViewedFlashcard ,ViewedDay} from '@/schemas/Flashcard'
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 
@@ -30,7 +30,14 @@ export const GetViewedFlashcardByDate = async () => {
   return listOfViewedDates
     
 }
-export async function GET(){
+export async function GET(request:NextRequest){
+
+    const {searchParams} = new URL(request.url)
+    const email = searchParams.get('email')
+
+
+
+
     const response = await GetViewedFlashcardByDate()
     return NextResponse.json(response)
 

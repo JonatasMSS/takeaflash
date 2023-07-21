@@ -20,11 +20,12 @@ model Tag {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  username   String
-  email      String
-  flashcards Flashcard[]
-  Tag        Tag[]
+  id               String            @id @default(uuid())
+  username         String
+  email            String
+  flashcards       Flashcard[]
+  tag              Tag[]
+  viewedflashcards ViewedFlashcard[]
 
   @@map("users")
 }
@@ -47,6 +48,8 @@ model ViewedFlashcard {
   viewedDay    ViewedDate @relation(fields: [viewedDateId], references: [id])
   isCorrect    Boolean
   viewedDateId String
+  User         User?      @relation(fields: [userId], references: [id])
+  userId       String?
 }
 
 model ViewedDate {

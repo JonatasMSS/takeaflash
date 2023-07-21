@@ -1,7 +1,5 @@
 import { Metrics } from "../MetricSection/Metrics";
 
-const GetViewedFlashcards = async () => {};
-
 export function MetricSection() {
   return (
     <div className="flex w-full flex-col p-2">
