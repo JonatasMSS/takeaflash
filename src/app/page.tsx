@@ -1,3 +1,4 @@
+import { FlashcardLoader } from "@/components/FlashcardsLoader";
 import { Selector } from "@/components/Selector";
 
 const Filter = () => {
@@ -15,6 +16,8 @@ export default async function Home() {
       <Filter />
 
       {/* Component */}
+
+      <FlashcardLoader />
     </main>
   );
 }

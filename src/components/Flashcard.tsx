@@ -101,7 +101,12 @@ const BackContent = ({ content, title, onHandleBack }: BackContentProps) => {
   );
 };
 
-export function Flashcard({ title, tagColor, content, tag }: FlashcardProps) {
+export function FlashcardComp({
+  title,
+  tagColor,
+  content,
+  tag,
+}: FlashcardProps) {
   const [isFrontal, setIsFrontal] = useState(true);
 
   const handleSeeAwnser = () => {
