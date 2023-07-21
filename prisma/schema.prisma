@@ -25,38 +25,39 @@ model Flashcard {
   id              String            @id @default(uuid())
   title           String            @unique
   content         String
-  Tag             Tag?
+  tag             Tag               @relation(fields: [tagId], references: [id])
   User            User?             @relation(fields: [userId], references: [id])
   userId          String?
+  tagId           Int
   ViewedFlashcard ViewedFlashcard[]
 
   @@map("flashcards")
 }
 
 model Tag {
-  id          Int        @id @default(autoincrement())
-  name        String     @unique
-  color       String
-  Flashcard   Flashcard? @relation(fields: [flashcardId], references: [id])
-  flashcardId String?    @unique
-  User        User?      @relation(fields: [userId], references: [id])
-  userId      String?
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  color String
+
+  User      User?       @relation(fields: [userId], references: [id])
+  userId    String?
+  Flashcard Flashcard[]
 
   @@map("tags")
 }
 
 model ViewedFlashcard {
   id           String      @id @default(uuid())
-  flashcard    Flashcard   @relation(fields: [flashcardId], references: [id])
-  flashcardId  String      @unique
   isCorrect    Boolean
   ViewedDate   ViewedDate? @relation(fields: [viewedDateId], references: [id])
   viewedDateId String?     @unique
+  flashcard    Flashcard   @relation(fields: [flashcardId], references: [id])
+  flashcardId  String      @unique
 }
 
 model ViewedDate {
   id               String            @id @default(uuid())
-  date             DateTime          @unique @default(now())
+  date             DateTime          @default(now())
   viewedFlashcards ViewedFlashcard[]
   user             User              @relation(fields: [userId], references: [id])
   userId           String

@@ -2,6 +2,7 @@ import { UserInfoSide } from "@/components/UserInfoSide";
 import AuthProvider from "@/context/AuthProvider";
 
 import "@/globals.css";
+import "@/lib/dayjs";
 import type { Metadata } from "next";
 import { K2D, Lalezar } from "next/font/google";
 

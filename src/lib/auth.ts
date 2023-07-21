@@ -1,21 +1,10 @@
 
 
 
-import {ISODateString, NextAuthOptions, User} from 'next-auth'
+import { NextAuthOptions, User} from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { prisma } from './prisma'
 import { AdapterUser } from 'next-auth/adapters'
-
-
-interface Session{
-    user?: {
-        id?:string | null
-        name?: string | null
-        email?: string | null
-        image?: string | null
-      }
-      expires: ISODateString
-}
 
 
 const getOrCreateUser =  async (user: User | AdapterUser) => {

@@ -1,4 +1,3 @@
-import { Flashcard } from "@/components/Flashcard";
 import { Selector } from "@/components/Selector";
 
 const Filter = () => {
