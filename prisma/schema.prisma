@@ -11,25 +11,23 @@ datasource db {
 }
 
 model User {
-  id         String       @id @default(uuid())
-  username   String
-  email      String       @unique
-  flashcards Flashcard[]
-  tags       Tag[]
-  ViewedDate ViewedDate[]
+  id        String      @id @default(uuid())
+  username  String
+  email     String      @unique
+  tags      Tag[]
+  Flashcard Flashcard[]
 
   @@map("users")
 }
 
 model Flashcard {
-  id              String            @id @default(uuid())
-  title           String            @unique
-  content         String
-  tag             Tag               @relation(fields: [tagId], references: [id])
-  User            User?             @relation(fields: [userId], references: [id])
-  userId          String?
-  tagId           Int
-  ViewedFlashcard ViewedFlashcard[]
+  id      String @id @default(uuid())
+  title   String @unique
+  content String
+  tag     Tag    @relation(fields: [tagId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+  tagId   Int
+  userId  String
 
   @@map("flashcards")
 }
@@ -44,21 +42,4 @@ model Tag {
   Flashcard Flashcard[]
 
   @@map("tags")
-}
-
-model ViewedFlashcard {
-  id           String      @id @default(uuid())
-  isCorrect    Boolean
-  ViewedDate   ViewedDate? @relation(fields: [viewedDateId], references: [id])
-  viewedDateId String?     @unique
-  flashcard    Flashcard   @relation(fields: [flashcardId], references: [id])
-  flashcardId  String      @unique
-}
-
-model ViewedDate {
-  id               String            @id @default(uuid())
-  date             DateTime          @default(now())
-  viewedFlashcards ViewedFlashcard[]
-  user             User              @relation(fields: [userId], references: [id])
-  userId           String
 }
