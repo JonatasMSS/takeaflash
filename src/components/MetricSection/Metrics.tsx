@@ -1,4 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { prisma } from "@/lib/prisma";
+import { ViewedDate } from "@/schemas/Flashcard";
 import { LockIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -12,30 +15,28 @@ import {
   Tooltip,
 } from "recharts";
 
-import { ViewedDay } from "@/schemas/Flashcard";
-
 interface GraphData {
   date: Date;
   acertos: number;
   erros: number;
 }
 
-const fetchViewedFlashcards = async () => {
-  const response: ViewedDay[] = await fetch(
-    "/api/datas/flashcards/viewed"
+const fetchViewedFlashcards = async ({ email }: { email: string }) => {
+  const response: ViewedDate[] = await fetch(
+    `/api/flashcards/viewed?email=${email}`
   ).then((res) => res.json());
-  const dataToGraph: GraphData[] = response.map((viewedDate) => {
-    const hitsOrMisses = (isHits: boolean = true) => {
-      const Flashcards = viewedDate.viewedFlascards.filter(
-        (flashcard) => flashcard.isCorrect === isHits
-      );
-      return Flashcards.length;
+
+  const dataToGraph: GraphData[] = response.map((data) => {
+    const filterMissedOrHits = (isHitted: boolean) => {
+      return data.viewedFlashcards.filter(
+        (flashcards) => flashcards.isCorrect === isHitted
+      ).length;
     };
 
     return {
-      date: viewedDate.date,
-      acertos: hitsOrMisses(true),
-      erros: hitsOrMisses(false),
+      date: data.date,
+      acertos: filterMissedOrHits(true),
+      erros: filterMissedOrHits(false),
     };
   });
 
@@ -43,12 +44,8 @@ const fetchViewedFlashcards = async () => {
 };
 
 export function Metrics() {
-  const { data: session } = useSession();
-  const [viewedFlashcards, setViewedFlashcards] = useState<GraphData[]>();
-
-  useEffect(() => {
-    fetchViewedFlashcards().then((data) => setViewedFlashcards(data));
-  }, []);
+  const { data: session, status } = useSession();
+  const [dataToGraph, setDataToGraph] = useState<GraphData[]>([]);
 
   // Quando não estiver logado
 
@@ -63,13 +60,19 @@ export function Metrics() {
     );
   }
 
+  if (session && status === "authenticated") {
+    fetchViewedFlashcards({ email: session.user?.email! }).then((data) => {
+      setDataToGraph(data);
+    });
+  }
+
   return (
     <div className="my-5 rounded-md border-2 border-black bg-white p-2 shadow-md">
-      <BarChart width={500} height={500} data={viewedFlashcards}>
+      <BarChart width={500} height={500} data={dataToGraph}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
+        <YAxis allowDecimals={false} />
+
         <Legend />
         <Bar dataKey="erros" fill="#ea2113" />
         <Bar dataKey="acertos" fill="#00fe61" />
