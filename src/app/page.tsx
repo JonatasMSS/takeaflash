@@ -1,14 +1,5 @@
+import { Filter } from "@/components/Filter";
 import { FlashcardLoader } from "@/components/FlashcardsLoader";
-import { Selector } from "@/components/Selector";
-
-const Filter = () => {
-  return (
-    <div className="flex w-full items-center gap-2 rounded-lg border-2 border-black p-2">
-      <span className="font-bold">Filtrar por</span>
-      <Selector itens={[]} />
-    </div>
-  );
-};
 
 export default async function Home() {
   return (

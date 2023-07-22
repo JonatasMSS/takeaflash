@@ -19,12 +19,13 @@ export function FlashcardLoader() {
 
   const { data: session, status } = useSession();
 
-  if (status === "authenticated" && session) {
-    fetchFlascards({ email: session?.user?.email! }).then((response) => {
-      setFlashcards(response);
-    });
-  }
-
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      fetchFlascards({ email: session?.user?.email! }).then((response) => {
+        setFlashcards(response);
+      });
+    }
+  }, [session]);
   return (
     <div className="flex w-full flex-col gap-5">
       {flashcards.map((flash, i) => (
