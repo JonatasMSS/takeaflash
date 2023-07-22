@@ -3,6 +3,7 @@
 import { Plus, HelpCircle, ArrowBigLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
+import { FormDialog } from "../FormDialog/FormDialog";
 
 interface FrontalViewProps {
   setHelperState: Dispatch<SetStateAction<boolean>>;
@@ -21,7 +22,9 @@ export const FrontalView = ({ setHelperState }: FrontalViewProps) => {
     return (
       <div className="flex flex-col justify-evenly">
         <button className="rounded-full bg-green-500 p-1">
-          <Plus size={50} strokeWidth={1.5} />
+          <FormDialog>
+            <Plus size={50} strokeWidth={1.5} />
+          </FormDialog>
         </button>
         <button className=" rounded-full bg-gorse p-1">
           <HelpCircle size={50} strokeWidth={1.5} onClick={handleOnShowTips} />
