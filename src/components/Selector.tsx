@@ -1,8 +1,11 @@
 "use client";
 
 import * as Select from "@radix-ui/react-select";
-import { ReactNode } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import { Dot } from "lucide-react";
+import { useLocalStorage } from "@/lib/LocalStorage";
+import { filterContext } from "@/context/FilterProvider";
+import { UppercaseFirstLetter } from "@/utils/UppercaseFirstLetter";
 
 interface SelectItemProps {
   children: ReactNode;
@@ -35,8 +38,14 @@ interface SelectorProps {
 }
 
 export const Selector = ({ itens }: SelectorProps) => {
+  const { setFilter } = useContext(filterContext);
+
+  const handleSetFilter = (value: string) => {
+    setFilter(UppercaseFirstLetter(value));
+  };
+
   return (
-    <Select.Root>
+    <Select.Root onValueChange={handleSetFilter}>
       <Select.Trigger className="border-martinquie flex gap-1 rounded-full border-2 border-none p-1">
         <Select.Value placeholder="Tags" />
         <Select.Icon className="scale-50 rounded-full bg-zinc-800 px-1 text-white" />

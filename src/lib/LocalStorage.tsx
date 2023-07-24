@@ -34,10 +34,24 @@ export function useLocalStorage() {
     localStorage.setItem("flashcards", JSON.stringify(newFlashcardList));
   };
 
+  const localFilter = () => {
+    const localFilter: string = JSON.parse(
+      localStorage.getItem("filterBy") ?? "[]"
+    );
+
+    return localFilter;
+  };
+
+  const setLocalFilter = (filterBy: string) => {
+    localStorage.setItem("filterBy", filterBy);
+  };
+
   return {
     localTags,
     setLocalTags,
     setLocalFlashcards,
     localFlashcards,
+    setLocalFilter,
+    localFilter,
   };
 }
