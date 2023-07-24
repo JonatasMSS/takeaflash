@@ -1,11 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Form } from "./Form";
+import { SelectorItem } from "../Selector";
+import { useSession } from "next-auth/react";
+import { useLocalStorage } from "@/lib/LocalStorage";
+
+const fetchTags = async ({ email }: { email: string }) => {
+  const tags: SelectorItem = await fetch(`/api/tags?email=${email}`).then(
+    (resp) => resp.json()
+  );
+
+  return tags;
+};
 
 export function FormDialog({ children }: { children: ReactNode }) {
+  const [userTags, setUserTags] = useState<SelectorItem>([]);
+  const { localTags, setLocalTags } = useLocalStorage();
+  const { data: session } = useSession();
+
+  const handleOpenDialog = () => {
+    if (session) {
+      fetchTags({ email: session?.user?.email! }).then((resp) => {
+        setUserTags(resp);
+      });
+    } else {
+      const tagsInStorage = localTags();
+      setUserTags(tagsInStorage);
+    }
+  };
+
   return (
-    <Dialog.Root defaultOpen>
+    <Dialog.Root onOpenChange={handleOpenDialog}>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -14,13 +41,7 @@ export function FormDialog({ children }: { children: ReactNode }) {
             Novo flashcard
           </Dialog.Title>
 
-          <Form />
-
-          <div className="flex w-full">
-            <Dialog.Close asChild>
-              <button className="">Confirmar</button>
-            </Dialog.Close>
-          </div>
+          <Form tags={userTags} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
