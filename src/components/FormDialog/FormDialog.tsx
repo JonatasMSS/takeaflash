@@ -41,7 +41,7 @@ export function FormDialog({ children }: { children: ReactNode }) {
             Novo flashcard
           </Dialog.Title>
 
-          <Form tags={userTags} />
+          <Form tags={userTags} session={session} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
