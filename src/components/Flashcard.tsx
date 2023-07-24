@@ -17,7 +17,7 @@ interface BackContentProps
   onHandleBack(): void;
 }
 
-interface FlashcardProps
+export interface FlashcardProps
   extends Omit<FrontalContentProps, "onHandleSee">,
     Omit<BackContentProps, "onHandleBack" | "title"> {}
 
