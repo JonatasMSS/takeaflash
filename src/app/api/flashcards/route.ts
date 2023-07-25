@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { Flashcard, Tag } from "@/schemas/Flashcard";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 
 const GetFlashcards = async ({email}:{email:string}) => {
@@ -37,7 +38,6 @@ const GetFlashcards = async ({email}:{email:string}) => {
     return Flashcards
 }
 
-
 export async function GET(request:NextRequest){
     const {searchParams} = new URL(request.url)
     const email = searchParams.get('email')
@@ -47,3 +47,4 @@ export async function GET(request:NextRequest){
     return NextResponse.json(flashcards)
 
 }
+

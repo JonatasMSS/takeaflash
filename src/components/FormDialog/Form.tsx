@@ -7,8 +7,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { ErrorShow } from "./ErrorShow";
 import { useLocalStorage } from "@/lib/LocalStorage";
-
-interface FormProps {}
+import { addFlashcard } from "./formAddFlashcard";
 
 export function Form({
   tags,
@@ -20,7 +19,10 @@ export function Form({
   const { setLocalFlashcards, setLocalTags } = useLocalStorage();
 
   const validationSchema = yup.object({
-    tag: yup.string().required("Tag requerida!"),
+    tag: yup
+      .string()
+      .required("Tag requerida!")
+      .matches(/^[a-zA-Z0-9@]+$/, "Não pode conter caracter especial!"),
     color: yup.string(),
     title: yup.string().required("Title requerida!"),
     content: yup.string().required("Content requerido!"),
@@ -34,21 +36,35 @@ export function Form({
       content: "",
     },
     validationSchema: validationSchema,
-    onSubmit: ({ title, color, tag, content }) => {
-      setLocalTags([
-        {
+    onSubmit: async ({ title, color, tag, content }) => {
+      if (session) {
+        await addFlashcard({
+          title,
+          tag: {
+            color,
+            name: tag,
+          },
+          content,
+          email: session.user?.email!,
+        });
+        alert("Flashcard criado com sucesso! ");
+        window.location.reload();
+      } else {
+        setLocalTags([
+          {
+            tagColor: color,
+            text: tag,
+            value: tag.toLocaleLowerCase(),
+          },
+        ]);
+        setLocalFlashcards({
+          title,
+          content,
+          tag: tag.toLowerCase(),
           tagColor: color,
-          text: tag,
-          value: tag.toLocaleLowerCase(),
-        },
-      ]);
-      setLocalFlashcards({
-        title,
-        content,
-        tag,
-        tagColor: color,
-      });
-      alert("Flashcard criado com sucesso!");
+        });
+        alert("Flashcard criado com sucesso!");
+      }
     },
   });
 

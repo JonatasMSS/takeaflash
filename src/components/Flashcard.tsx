@@ -3,7 +3,11 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { useLocalStorage } from "@/lib/LocalStorage";
+import { useSession } from "next-auth/react";
+import { DeleteFlashcardFromDatabase } from "./Flashcard/handleDeleteFlashcard";
+import { useRouter } from "next/navigation";
+import { Flashloader } from "./Flashcard/FlashLoader";
 interface FrontalContentProps {
   tag: string;
   title: string;
@@ -15,11 +19,15 @@ interface BackContentProps
   extends Omit<FrontalContentProps, "tag" | "tagColor" | "onHandleSee"> {
   content: string;
   onHandleBack(): void;
+  onHandleDelete?(): void;
+  id?: string;
 }
 
 export interface FlashcardProps
   extends Omit<FrontalContentProps, "onHandleSee">,
-    Omit<BackContentProps, "onHandleBack" | "title"> {}
+    Omit<BackContentProps, "onHandleBack" | "title"> {
+  id?: string;
+}
 
 const FrontalContent = ({
   tag,
@@ -60,7 +68,12 @@ const FrontalContent = ({
   );
 };
 
-const BackContent = ({ content, title, onHandleBack }: BackContentProps) => {
+const BackContent = ({
+  content,
+  title,
+  onHandleBack,
+  onHandleDelete,
+}: BackContentProps) => {
   function HeaderContent() {
     return (
       <div className="flex flex-col">
@@ -69,6 +82,7 @@ const BackContent = ({ content, title, onHandleBack }: BackContentProps) => {
       </div>
     );
   }
+
   function ActionButtons() {
     return (
       <div className="flex gap-2 ">
@@ -76,13 +90,13 @@ const BackContent = ({ content, title, onHandleBack }: BackContentProps) => {
           onClick={onHandleBack}
           className="rounded-md bg-green-500 p-1 font-bold transition-all hover:scale-105 hover:bg-green-400"
         >
-          Acertei!
+          Retornar
         </button>
         <button
-          onClick={onHandleBack}
+          onClick={onHandleDelete}
           className="rounded-md bg-red-500 p-1 font-bold transition-all hover:scale-105 hover:bg-red-400"
         >
-          Errei!
+          Deletar
         </button>
       </div>
     );
@@ -106,6 +120,8 @@ export function FlashcardComp({
   tagColor,
   content,
   tag,
+  id,
+  onHandleDelete,
 }: FlashcardProps) {
   const [isFrontal, setIsFrontal] = useState(true);
 
@@ -127,6 +143,7 @@ export function FlashcardComp({
           <BackContent
             content={content}
             title={title}
+            onHandleDelete={onHandleDelete}
             onHandleBack={handleSeeAwnser}
           />
         )}

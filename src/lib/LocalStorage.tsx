@@ -28,6 +28,28 @@ export function useLocalStorage() {
 
     return flashcards;
   };
+  const deleteLocalFlashcards = (
+    typeCont: string,
+    type: "byId" | "byName" = "byId"
+  ) => {
+    const flashcardsInLocalStorage = localFlashcards();
+
+    let newFlashcardListWithoutSelected;
+    if (type === "byId") {
+      newFlashcardListWithoutSelected = flashcardsInLocalStorage.filter(
+        (flash) => flash.id !== typeCont
+      );
+    } else if (type === "byName") {
+      newFlashcardListWithoutSelected = flashcardsInLocalStorage.filter(
+        (flash) => flash.title !== typeCont
+      );
+    }
+
+    localStorage.setItem(
+      "flashcards",
+      JSON.stringify(newFlashcardListWithoutSelected)
+    );
+  };
   const setLocalFlashcards = (flashcard: FlashcardProps) => {
     const flashcardsInLocalStorage = localFlashcards();
     const newFlashcardList = [...flashcardsInLocalStorage, flashcard];
@@ -53,5 +75,6 @@ export function useLocalStorage() {
     localFlashcards,
     setLocalFilter,
     localFilter,
+    deleteLocalFlashcards,
   };
 }

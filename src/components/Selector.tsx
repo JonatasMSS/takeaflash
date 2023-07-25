@@ -41,7 +41,7 @@ export const Selector = ({ itens }: SelectorProps) => {
   const { setFilter } = useContext(filterContext);
 
   const handleSetFilter = (value: string) => {
-    setFilter(UppercaseFirstLetter(value));
+    setFilter(value.toLowerCase());
   };
 
   return (

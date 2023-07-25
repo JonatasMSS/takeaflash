@@ -15,7 +15,7 @@ export interface Flashcard {
 }
 
 export interface Tag {
-  id: number;
+  id?: number;
   name: string;
   color: string;
   flashcardId?: string | null;

@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { useLocalStorage } from "@/lib/LocalStorage";
 import { filterContext } from "@/context/FilterProvider";
 import { UppercaseFirstLetter } from "@/utils/UppercaseFirstLetter";
+import { DeleteFlashcardFromDatabase } from "./Flashcard/handleDeleteFlashcard";
 
 const fetchFlascards = async ({ email }: { email: string }) => {
   const flashcards: Flashcard[] = await fetch(
@@ -22,7 +23,7 @@ export function FlashcardLoader() {
 
   const { data: session, status } = useSession();
   const { filter } = useContext(filterContext);
-  const { localFlashcards } = useLocalStorage();
+  const { localFlashcards, deleteLocalFlashcards } = useLocalStorage();
 
   const FilterFlashcardsWhenNoSession = (flashcards: FlashcardProps[]) => {
     let localFlashs;
@@ -47,6 +48,27 @@ export function FlashcardLoader() {
     }
 
     return sessionFlashs;
+  };
+
+  const handleDelete = async (title: string) => {
+    if (session) {
+      await DeleteFlashcardFromDatabase(title);
+
+      const newFlashcardsAfterDelete = flashcards.filter(
+        (flash) => flash.title !== title
+      );
+
+      setFlashcards(newFlashcardsAfterDelete);
+      window.location.reload();
+    } else {
+      deleteLocalFlashcards(title, "byName");
+      alert("Flashcard deletado com sucesso");
+      const newFlashcardsAfterDelete = flashcards.filter(
+        (flash) => flash.title !== title
+      );
+      setFlashcards(newFlashcardsAfterDelete);
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
@@ -80,11 +102,15 @@ export function FlashcardLoader() {
     <div className="flex w-full flex-col gap-5">
       {flashcards.map((flash, i) => (
         <FlashcardComp
+          id={flash.id}
           key={flash.id}
           content={flash.content}
           tag={flash.tag.name}
           title={flash.title}
           tagColor={flash.tag.color}
+          onHandleDelete={() => {
+            handleDelete(flash.title);
+          }}
         />
       ))}
     </div>

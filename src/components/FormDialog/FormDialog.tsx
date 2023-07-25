@@ -17,7 +17,7 @@ const fetchTags = async ({ email }: { email: string }) => {
 
 export function FormDialog({ children }: { children: ReactNode }) {
   const [userTags, setUserTags] = useState<SelectorItem>([]);
-  const { localTags, setLocalTags } = useLocalStorage();
+  const { localTags } = useLocalStorage();
   const { data: session } = useSession();
 
   const handleOpenDialog = () => {
