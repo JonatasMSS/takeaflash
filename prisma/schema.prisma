@@ -1,12 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -14,8 +11,8 @@ model User {
   id        String      @id @default(uuid())
   username  String
   email     String      @unique
-  tags      Tag[]
   Flashcard Flashcard[]
+  tags      Tag[]
 
   @@map("users")
 }
@@ -24,22 +21,21 @@ model Flashcard {
   id      String @id @default(uuid())
   title   String @unique
   content String
-  tag     Tag    @relation(fields: [tagId], references: [id])
-  user    User   @relation(fields: [userId], references: [id])
   tagId   Int
   userId  String
+  tag     Tag    @relation(fields: [tagId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
 
   @@map("flashcards")
 }
 
 model Tag {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  color String
-
-  User      User?       @relation(fields: [userId], references: [id])
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  color     String
   userId    String?
   Flashcard Flashcard[]
+  User      User?       @relation(fields: [userId], references: [id])
 
   @@map("tags")
 }
