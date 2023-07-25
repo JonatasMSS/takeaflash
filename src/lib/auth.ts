@@ -35,6 +35,7 @@ export const authConfig:NextAuthOptions = {
             
         })
     ],
+    secret:process.env.NEXTAUTH_SECRET,
     callbacks:{
         async signIn({user}){
            return getOrCreateUser(user)
