@@ -15,6 +15,8 @@ module.exports = {
         gorse:'#FEF65A',
         softGorse:'#F8ECB4',
         grenadier:'#DE2901',
+        martinquier:'#2F3352',
+        sahara:'#F5E28D'
 
       }
     },

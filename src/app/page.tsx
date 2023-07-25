@@ -1,27 +1,17 @@
-import { prisma } from '@/lib/prisma'
-import { GetServerSideProps } from 'next'
-import Image from 'next/image'
-
-async function getData() {
-  const tags = await prisma.tag.findMany()
-
-  return tags
-}
-
+import { Filter } from "@/components/Filter";
+import { FlashcardLoader } from "@/components/FlashcardsLoader";
+import { FilterProvider } from "@/context/FilterProvider";
 
 export default async function Home() {
-
-  const tags = await getData()
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <p>
-        {JSON.stringify(tags)}
-      </p>
+    <main className="flex max-h-screen flex-col items-center gap-5 overflow-y-auto p-5">
+      <FilterProvider>
+        <Filter />
+
+        {/* Component */}
+
+        <FlashcardLoader />
+      </FilterProvider>
     </main>
-  )
+  );
 }
-
-
-
-
