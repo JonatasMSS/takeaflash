@@ -16,7 +16,7 @@ export function SignIn() {
       <UserLogo />
       <p>
         <button
-          onClick={() => signIn("google")}
+          onClick={() => signIn("google").then((resp) => console.log(resp))}
           className="underline transition-all hover:text-zinc-500"
         >
           Crie uma conta
