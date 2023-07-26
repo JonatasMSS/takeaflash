@@ -64,6 +64,7 @@ export function Form({
           tagColor: color,
         });
         alert("Flashcard criado com sucesso!");
+        window.location.reload();
       }
     },
   });
